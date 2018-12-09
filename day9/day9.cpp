@@ -2,6 +2,7 @@
 #include <cstdlib>
 #include <cstring>
 #include <cstdint>
+#include <inttypes.h>
 #define PLAYERS (419)
 #define LAST_MARBLE (7105200)
 
@@ -14,12 +15,17 @@ struct marble {
 	num_t N;
 };
 
-void free_marble(marble* m) {
-	delete m;
-}
+struct {
+	marble arena[LAST_MARBLE];
+	num_t i = 0;
+
+	marble* alloc() {
+		return arena + (i++);
+	}
+} allocator;
 
 marble* create_marble(num_t N) {
-	auto m = new marble;
+	auto m = allocator.alloc();
 	m->prev = m->next = nullptr;
 	m->N = N;
 	return m;
@@ -64,7 +70,6 @@ int main() {
 			removant->prev->next = removant->next;
 			removant->next->prev = removant->prev;
 			current = removant->next;
-			free_marble(removant);
 		} else {
 			marble* nb = create_marble(next_marble);
 			auto left = current->next;
@@ -94,5 +99,5 @@ int main() {
 			max = scores[i];
 		}
 	}
-	printf("\n%ull\n", max);
+	printf("\n%" PRIu64 "\n", max);
 }
