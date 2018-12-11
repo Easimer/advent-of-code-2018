@@ -78,7 +78,7 @@ int main() {
 		constexpr int THREADS = 4;
 		pthread_t threads[THREADS];
 		int thread_count = 0;
-		int s = 300;
+		int s = 1;
 		thread_param param;
 		param.mx = &mx;
 		param.my = &my;
@@ -95,7 +95,7 @@ int main() {
 					printf("Thread creation has failed!!\n");
 				}
 				printf("Thread %d created\n", s);
-				s--;
+				s++;
 				thread_count++;
 				pthread_mutex_unlock(&mutex);
 				continue;
