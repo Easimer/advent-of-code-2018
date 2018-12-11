@@ -1,4 +1,4 @@
-CXXFLAGS=-O2 -g
+CXXFLAGS=-Ofast -march=native -mtune=native -g
 LDFLAGS=-lpthread
 all: day11.exe
 

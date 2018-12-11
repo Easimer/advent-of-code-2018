@@ -3,6 +3,7 @@
 #include <xmmintrin.h>
 
 constexpr int SERIAL = 7315;
+constexpr int GRID_SIZE = 300;
 using num_t = long long int;
 
 constexpr num_t power_level(const int x, const int y) noexcept {
@@ -12,8 +13,8 @@ constexpr num_t power_level(const int x, const int y) noexcept {
 
 void part1(int* mx, int* my, int* mp, int* ms, int dim) {
 	auto dimc = dim / 2;
-	for(int y = 0 + dimc; y < 300 - dimc; y++) {
-		for(int x = 0 + dimc; x < 300 - dimc; x++) {
+	for(int y = 0 + dimc; y < GRID_SIZE - dimc; y++) {
+		for(int x = 0 + dimc; x < GRID_SIZE  - dimc; x++) {
 			num_t power = 0;
 
 			for(int dy = 0; dy < dim; dy++) {
@@ -88,7 +89,7 @@ int main() {
 		param.thread_count = &thread_count;
 		while(1) {
 			pthread_mutex_lock(&mutex);
-			if(thread_count < THREADS && s > 0) {
+			if(thread_count < THREADS && s <= GRID_SIZE) {
 				auto pParam = new thread_param(param);
 				pParam->size = s;
 				if(pthread_create(&threads[s - 1], nullptr, &thread_entry, pParam) != 0) {
@@ -100,7 +101,7 @@ int main() {
 				pthread_mutex_unlock(&mutex);
 				continue;
 			}
-			if(thread_count <= 0 && s <= 0) {
+			if(thread_count <= 0 && s >= GRID_SIZE) {
 				break;
 			}
 			pthread_mutex_unlock(&mutex);
