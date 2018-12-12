@@ -83,6 +83,16 @@ state = orig_state
 zero = 0
 rules = get_rules()
 
+if "-g" in sys.argv:
+    import time
+    i = 0
+    while True:
+        for x in state:
+            print('#' if x == 1 else '.', end='')
+        print()
+        state, zero = match(state, zero, rules)
+        time.sleep(0.4)
+
 for i in range(20):
     state, zero = match(state, zero, rules)
 
